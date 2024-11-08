@@ -15,46 +15,38 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import cl.capstone.ms_gestion_faenas.model.Faena;
+import cl.capstone.ms_gestion_faenas.dto.FaenaDTO;
 import cl.capstone.ms_gestion_faenas.model.Response;
 import cl.capstone.ms_gestion_faenas.service.IFaenaService;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*") // CORS para todos los endpoints en esta clase
-
 public class FaenaController {
 
     @Autowired
     private IFaenaService iFaenaService;
 
     @PostMapping("/faena/crear")
-    public String saveFaena(@RequestBody Faena faena) {
-
-        // Response response = new Response();
-        // LocalDateTime currentDate = LocalDateTime.now();
-
-        iFaenaService.saveFaena(faena);
+    public String saveFaena(@RequestBody FaenaDTO faenaDTO) {
+        iFaenaService.saveFaena(faenaDTO);
         return "Faena creada";
     }
 
     @DeleteMapping("/faena/borrar/{id}")
     public ResponseEntity<Response> deleteFaena(@PathVariable Long id) {
-
         Response response = new Response();
         LocalDateTime currentDate = LocalDateTime.now();
 
-        Faena faena = iFaenaService.findFaena(id);
+        FaenaDTO faenaDTO = iFaenaService.findFaena(id);
 
-        if (faena != null) {
-            // Si existe el trabajador, procedemos a eliminarlo
+        if (faenaDTO != null) {
             iFaenaService.deleteFaena(id);
             response.setCodigoRetorno(0); // Código de éxito
             response.setGlosaRetorno("Faena eliminada.");
-            response.setResultado(faena);
+            response.setResultado(faenaDTO);
             response.setTimestamp(currentDate);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
-            // Si el trabajador no existe, retornamos un mensaje de error
             response.setCodigoRetorno(-1); // Código de error
             response.setGlosaRetorno("No se encontró la faena.");
             response.setResultado(null);
@@ -63,56 +55,53 @@ public class FaenaController {
         }
     }
 
-    @PutMapping("/faena/editar/")
-    public Faena editFaena(@RequestBody Faena faena) {
-        iFaenaService.editFaena(faena);
-
-        return iFaenaService.findFaena(faena.getIdFaena());
+    @PutMapping("/faena/editar")
+    public ResponseEntity<FaenaDTO> editFaena(@RequestBody FaenaDTO faenaDTO) {
+        iFaenaService.editFaena(faenaDTO);
+        FaenaDTO updatedFaenaDTO = iFaenaService.findFaena(faenaDTO.getIdFaena());
+        return new ResponseEntity<>(updatedFaenaDTO, HttpStatus.OK);
     }
 
     @GetMapping("/faena/traer/{id}")
-    public ResponseEntity<Response> getTipoFaenaById(@PathVariable Long id) {
-
+    public ResponseEntity<Response> getFaenaById(@PathVariable Long id) {
         Response response = new Response();
         LocalDateTime currentDate = LocalDateTime.now();
 
-        Faena faena = iFaenaService.findFaena(id);
+        FaenaDTO faenaDTO = iFaenaService.findFaena(id);
 
-        if (faena == null) {
+        if (faenaDTO == null) {
             response.setCodigoRetorno(-1);
-            response.setGlosaRetorno("Faena no encotrada.");
-            response.setResultado(faena);
+            response.setGlosaRetorno("Faena no encontrada.");
+            response.setResultado(faenaDTO);
             response.setTimestamp(currentDate);
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         } else {
             response.setCodigoRetorno(0);
             response.setGlosaRetorno("Faena encontrada.");
-            response.setResultado(faena);
+            response.setResultado(faenaDTO);
             response.setTimestamp(currentDate);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
     }
 
     @GetMapping("/faena/traer")
-    public ResponseEntity<Response> getFaena() {
-
-        List<Faena> faenas = iFaenaService.getFaenas();
+    public ResponseEntity<Response> getFaenas() {
+        List<FaenaDTO> faenasDTO = iFaenaService.getFaenas();
         Response response = new Response();
         LocalDateTime currentDate = LocalDateTime.now();
 
-        if (faenas == null || faenas.isEmpty()) {
+        if (faenasDTO == null || faenasDTO.isEmpty()) {
             response.setCodigoRetorno(-1);
-            response.setGlosaRetorno("Faena no encotradas.");
-            response.setResultado(faenas);
+            response.setGlosaRetorno("Faenas no encontradas.");
+            response.setResultado(faenasDTO);
             response.setTimestamp(currentDate);
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         } else {
             response.setCodigoRetorno(0);
-            response.setGlosaRetorno("Faena encontradas.");
-            response.setResultado(faenas);
+            response.setGlosaRetorno("Faenas encontradas.");
+            response.setResultado(faenasDTO);
             response.setTimestamp(currentDate);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
-
     }
 }
