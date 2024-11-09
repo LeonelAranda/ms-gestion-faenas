@@ -1,6 +1,8 @@
 package cl.capstone.ms_gestion_faenas.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 import lombok.ToString;
@@ -11,9 +13,11 @@ public class CrearFaenaDTO {
 
     private Long idTrabajador;
 
-    private LocalDateTime fechaInicio;
+    @DateTimeFormat(pattern = "dd-MM-yyyy") // Formato "dd-MM-yyyy"
+    private LocalDate fechaInicio;
 
-    private LocalDateTime fechaTermino;
+    @DateTimeFormat(pattern = "dd-MM-yyyy") // Formato "dd-MM-yyyy"
+    private LocalDate fechaTermino;
 
     private String encargado;
 

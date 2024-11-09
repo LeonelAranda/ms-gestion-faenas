@@ -1,6 +1,6 @@
 package cl.capstone.ms_gestion_faenas.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,10 +29,10 @@ public class Faena {
     private Long idTrabajador;
 
     @Column(name = "FECHA_INICIO", nullable = false)
-    private LocalDateTime fechaInicio;
+    private LocalDate fechaInicio;
 
     @Column(name = "FECHA_TERMINO", nullable = false)
-    private LocalDateTime fechaTermino;
+    private LocalDate fechaTermino;
 
     @Column(name = "ENCARGADO", nullable = false)
     private String encargado;

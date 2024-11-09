@@ -1,6 +1,6 @@
 package cl.capstone.ms_gestion_faenas.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import lombok.Data;
 import lombok.ToString;
@@ -13,9 +13,9 @@ public class FaenaDTO {
 
     private Long idTrabajador;
 
-    private LocalDateTime fechaInicio;
+    private LocalDate fechaInicio;
 
-    private LocalDateTime fechaTermino;
+    private LocalDate fechaTermino;
 
     private String encargado;
 
