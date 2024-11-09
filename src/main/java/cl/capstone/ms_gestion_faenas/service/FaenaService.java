@@ -1,53 +1,98 @@
 package cl.capstone.ms_gestion_faenas.service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cl.capstone.ms_gestion_faenas.dto.CrearFaenaDTO;
 import cl.capstone.ms_gestion_faenas.dto.FaenaDTO;
-import cl.capstone.ms_gestion_faenas.mapper.FaenaMapper;
 import cl.capstone.ms_gestion_faenas.model.Faena;
+import cl.capstone.ms_gestion_faenas.model.TipoFaena;
 import cl.capstone.ms_gestion_faenas.repository.IFaenaRepository;
 
 @Service
 public class FaenaService implements IFaenaService {
 
     @Autowired
-    private IFaenaRepository faenaRepository;
-
-    @Autowired
-    private FaenaMapper faenaMapper;
+    IFaenaRepository faenaRepository;
 
     @Override
     public List<FaenaDTO> getFaenas() {
+        List<FaenaDTO> listaDto = new ArrayList<>();
         List<Faena> listaFaena = faenaRepository.findAll();
-        return listaFaena.stream()
-                .map(faenaMapper::toDto)
-                .collect(Collectors.toList());
+
+        for (Faena faena : listaFaena) {
+            FaenaDTO dto = new FaenaDTO();
+            dto.setIdFaena(faena.getIdFaena());
+            dto.setIdTrabajador(faena.getIdTrabajador());
+            dto.setFechaInicio(faena.getFechaInicio());
+            dto.setFechaTermino(faena.getFechaTermino());
+            dto.setEncargado(faena.getEncargado());
+
+            // Mapea los campos de tipoFaena
+            if (faena.getTipoFaena() != null) {
+                dto.setIdTipoFaena(faena.getTipoFaena().getIdTipoFaena());
+                dto.setNombreFaena(faena.getTipoFaena().getNombreFaena());
+            }
+
+            listaDto.add(dto);
+        }
+
+        return listaDto;
     }
 
     @Override
-    public void saveFaena(FaenaDTO faenaDTO) {
-        Faena faena = faenaMapper.toEntity(faenaDTO);
+    public void saveFaena(CrearFaenaDTO faenaDTO) {
+        Faena faena = new Faena();
+        faena.setIdTrabajador(faenaDTO.getIdTrabajador());
+        faena.setFechaInicio(faenaDTO.getFechaInicio());
+        faena.setFechaTermino(faenaDTO.getFechaTermino());
+        faena.setEncargado(faenaDTO.getEncargado());
+
+        // Mapea el campo idTipoFaena a TipoFaena
+        if (faenaDTO.getIdTipoFaena() != null) {
+            TipoFaena tipoFaena = new TipoFaena();
+            tipoFaena.setIdTipoFaena(faenaDTO.getIdTipoFaena());
+            faena.setTipoFaena(tipoFaena);
+        }
+
         faenaRepository.save(faena);
     }
 
     @Override
     public void deleteFaena(Long id) {
+
         faenaRepository.deleteById(id);
     }
 
     @Override
-    public FaenaDTO findFaena(Long id) {
+    public Faena findFaena(Long id) {
+
         Faena faena = faenaRepository.findById(id).orElse(null);
-        return faena != null ? faenaMapper.toDto(faena) : null;
+        return faena;
     }
 
     @Override
     public void editFaena(FaenaDTO faenaDTO) {
-        Faena faena = faenaMapper.toEntity(faenaDTO);
-        this.saveFaena(faenaMapper.toDto(faena));
+        Faena faena = new Faena();
+        faena.setIdFaena(faenaDTO.getIdFaena());
+        faena.setIdTrabajador(faenaDTO.getIdTrabajador());
+        faena.setFechaInicio(faenaDTO.getFechaInicio());
+        faena.setFechaTermino(faenaDTO.getFechaTermino());
+        faena.setEncargado(faenaDTO.getEncargado());
+
+        // Mapea el campo idTipoFaena a TipoFaena
+        if (faenaDTO.getIdTipoFaena() != null) {
+            TipoFaena tipoFaena = new TipoFaena();
+            tipoFaena.setIdTipoFaena(faenaDTO.getIdTipoFaena());
+            tipoFaena.setNombreFaena(faenaDTO.getNombreFaena());
+            faena.setTipoFaena(tipoFaena);
+        }
+
+        // Guarda la entidad Faena mapeada
+        faenaRepository.save(faena);
     }
+
 }
