@@ -13,10 +13,10 @@ public class CrearFaenaDTO {
 
     private Long idTrabajador;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy") // Formato "dd-MM-yyyy"
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) // Formato ISO "yyyy-MM-dd"
     private LocalDate fechaInicio;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy") // Formato "dd-MM-yyyy"
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) // Formato ISO "yyyy-MM-dd"
     private LocalDate fechaTermino;
 
     private String encargado;

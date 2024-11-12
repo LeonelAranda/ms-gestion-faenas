@@ -44,7 +44,7 @@ public class FaenaService implements IFaenaService {
     }
 
     @Override
-    public void saveFaena(CrearFaenaDTO faenaDTO) {
+    public CrearFaenaDTO saveFaena(CrearFaenaDTO faenaDTO) {
         Faena faena = new Faena();
         faena.setIdTrabajador(faenaDTO.getIdTrabajador());
         faena.setFechaInicio(faenaDTO.getFechaInicio());
@@ -59,6 +59,7 @@ public class FaenaService implements IFaenaService {
         }
 
         faenaRepository.save(faena);
+        return faenaDTO;
     }
 
     @Override

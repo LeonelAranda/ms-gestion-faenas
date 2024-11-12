@@ -10,7 +10,7 @@ public interface IFaenaService {
 
     public List<FaenaDTO> getFaenas();
 
-    public void saveFaena(CrearFaenaDTO faena);
+    public CrearFaenaDTO saveFaena(CrearFaenaDTO faena);
 
     public void deleteFaena(Long id);
 

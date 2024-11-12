@@ -22,9 +22,10 @@ public class TipoFaenaService implements ITipoFaenaService {
     }
 
     @Override
-    public void saveTipoFaena(TipoFaena tipoFaena) {
+    public TipoFaena saveTipoFaena(TipoFaena tipoFaena) {
 
         tipofaenaRepository.save(tipoFaena);
+        return tipoFaena;
     }
 
     @Override

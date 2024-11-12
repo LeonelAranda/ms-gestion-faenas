@@ -30,13 +30,28 @@ public class FaenaController {
     private IFaenaService iFaenaService;
 
     @PostMapping("/faena/crear")
-    public String saveFaena(@RequestBody CrearFaenaDTO faena) {
+    public ResponseEntity<Response> saveFaena(@RequestBody CrearFaenaDTO faena) {
 
-        // Response response = new Response();
-        // LocalDateTime currentDate = LocalDateTime.now();
+        Response response = new Response();
+        LocalDateTime currentDate = LocalDateTime.now();
 
-        iFaenaService.saveFaena(faena);
-        return "Faena creada";
+        CrearFaenaDTO crearFaenaDTO = iFaenaService.saveFaena(faena);
+
+        // Verificar si se guardó correctamente
+        if (crearFaenaDTO != null) {
+            response.setCodigoRetorno(0); // Código de éxito
+            response.setGlosaRetorno("Faena creada exitosamente.");
+            response.setResultado(crearFaenaDTO);
+            response.setTimestamp(currentDate);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } else {
+            // En caso de fallo al guardar el TipoCumplimiento
+            response.setCodigoRetorno(-1); // Código de error
+            response.setGlosaRetorno("Error al crear la faena.");
+            response.setResultado(null);
+            response.setTimestamp(currentDate);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/faena/borrar/{id}")

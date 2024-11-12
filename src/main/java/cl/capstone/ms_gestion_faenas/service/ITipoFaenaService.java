@@ -8,7 +8,7 @@ public interface ITipoFaenaService {
 
     public List<TipoFaena> getTipoFaenas();
 
-    public void saveTipoFaena(TipoFaena tipoFaena);
+    public TipoFaena saveTipoFaena(TipoFaena tipoFaena);
 
     public void deleteTipoFaena(Long id);
 
