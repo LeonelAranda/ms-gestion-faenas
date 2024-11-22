@@ -13,6 +13,8 @@ public class CrearFaenaDTO {
 
     private Long idTrabajador;
 
+    private String nombreFaena;
+
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) // Formato ISO "yyyy-MM-dd"
     private LocalDate fechaInicio;
 

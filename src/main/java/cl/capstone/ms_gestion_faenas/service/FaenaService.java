@@ -25,6 +25,7 @@ public class FaenaService implements IFaenaService {
 
         for (Faena faena : listaFaena) {
             FaenaDTO dto = new FaenaDTO();
+            dto.setNombreFaena(faena.getNombreFaena());
             dto.setIdFaena(faena.getIdFaena());
             dto.setIdTrabajador(faena.getIdTrabajador());
             dto.setFechaInicio(faena.getFechaInicio());
@@ -46,6 +47,8 @@ public class FaenaService implements IFaenaService {
     @Override
     public CrearFaenaDTO saveFaena(CrearFaenaDTO faenaDTO) {
         Faena faena = new Faena();
+
+        faena.setNombreFaena(faenaDTO.getNombreFaena());
         faena.setIdTrabajador(faenaDTO.getIdTrabajador());
         faena.setFechaInicio(faenaDTO.getFechaInicio());
         faena.setFechaTermino(faenaDTO.getFechaTermino());
