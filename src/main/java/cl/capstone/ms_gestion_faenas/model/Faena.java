@@ -25,6 +25,9 @@ public class Faena {
     @Column(name = "ID_FAENA", nullable = false)
     private Long idFaena;
 
+    @Column(name = "NOMBRE_FAENA", nullable = false)
+    private String nombreFaena;
+
     @Column(name = "ID_TRABAJADOR", nullable = false)
     private Long idTrabajador;
 
