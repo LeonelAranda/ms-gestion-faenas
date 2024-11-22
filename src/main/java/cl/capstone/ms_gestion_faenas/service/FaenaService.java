@@ -45,8 +45,13 @@ public class FaenaService implements IFaenaService {
         faena.setFechaTermino(faenaDTO.getFechaTermino());
         faena.setEncargado(faenaDTO.getEncargado());
 
-        faenaRepository.save(faena);
+        // Guarda la entidad y obtiene el ID generado
+        Faena savedFaena = faenaRepository.save(faena);
+
+        // Devuelve el DTO con el ID generado
+        faenaDTO.setIdFaena(savedFaena.getIdFaena());
         return faenaDTO;
+
     }
 
     @Override
