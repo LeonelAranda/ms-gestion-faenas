@@ -11,8 +11,6 @@ import lombok.ToString;
 @ToString
 public class CrearFaenaDTO {
 
-    private Long idTrabajador;
-
     private String nombreFaena;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) // Formato ISO "yyyy-MM-dd"
@@ -22,7 +20,5 @@ public class CrearFaenaDTO {
     private LocalDate fechaTermino;
 
     private String encargado;
-
-    private Long idTipoFaena;
 
 }
