@@ -28,6 +28,11 @@ public class FaenaController {
     @Autowired
     private IFaenaService iFaenaService;
 
+    @GetMapping("/getHttpsService")
+    public String getHttpSResponse() {
+        return " Respuesta recivida desde HTTPS.";
+    }
+
     @PostMapping("/faena/crear")
     public ResponseEntity<Response> saveFaena(@RequestBody CrearFaenaDTO faena) {
 
