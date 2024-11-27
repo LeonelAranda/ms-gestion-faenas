@@ -22,7 +22,8 @@ import cl.capstone.ms_gestion_faenas.model.Response;
 import cl.capstone.ms_gestion_faenas.service.IFaenaService;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*") // CORS para todos los endpoints en esta clase
+@CrossOrigin(origins = "https://sistemagf.cl", allowedHeaders = "*") // CORS para todos los endpoints en esta
+                                                                             // clase
 public class FaenaController {
 
     @Autowired
